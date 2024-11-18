@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= session.date %></title>
+  </head>
+  <body>
+    <a href="/sessions/">Back to Sessions</a>
+    <h1><%= session.date %></h1>
+    <h3><%= session.location %></h3>
+    <h3><%= session.waveHeight %>ft waves</h3>
+    <% if(session.wasFun) { %>
+        <h3>Your session was fun!</h3>
+        <% } else { %>
+            <h3>Your session was not fun and that's too bad</h3>
+            <% } %>
+    
+    </h3>
+  </body>
+</html>

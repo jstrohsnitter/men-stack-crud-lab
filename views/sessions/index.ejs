@@ -1,0 +1,18 @@
+<!-- views/sessions/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sessions Index</title>
+  </head>
+  <body>
+    <h1>All Sessions</h1>
+    <ul>
+        <% sessions.forEach(session => { %>
+          <li><a href="/sessions/<%= session._id %>"><%=session.date%></a> <%= session.location %></li>
+        <% }); %>
+      </ul>
+      <a href="/sessions/new">Add New Session</a>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log a Session</title>
+  </head>
+  <body>
+    <a href="/sessions/">Back to Sessions</a>
+    <h1>Log a Recent Surf Session!</h1>
+    <form action="/sessions" method="POST">
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="location" />
+
+        <label for="date">Date (MM/DD/YYYY):</label>
+        <input type="text" name="date" id="date" />
+
+        <label for="waveHeight">Wave Height (feet):</label>
+        <input type="number" name="waveHeight" id="waveHeight" /> <!-- this name has to match the schema in order to be logged in the database-->
+    
+        <label for="wasFun">Was it fun?</label>
+        <input type="checkbox" name="wasFun" id="wasFun" />
+    
+        <button type="submit">Log Session</button>
+      </form>
+  </body>
+</html>
