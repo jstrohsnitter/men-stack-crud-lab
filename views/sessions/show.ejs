@@ -15,7 +15,10 @@
         <% } else { %>
             <h3>Your session was not fun and that's too bad</h3>
             <% } %>
-    
     </h3>
+    <form action="/sessions/<%=session._id%>?_method=DELETE" method="POST">
+        <button type="submit">Delete <%= session.date %></button>
+    </form>
+    <a href="/sessions/<%= session._id %>/edit">Edit <%= session.date %></a>
   </body>
 </html>

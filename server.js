@@ -2,6 +2,8 @@ const dotenv = require("dotenv"); // require package
 dotenv.config(); // Loads the environment variables from .env file
 const express = require("express");
 const mongoose = require("mongoose"); // require package
+const methodOverride = require("method-override"); // new
+const morgan = require("morgan"); //new
 
 const app = express();
 
@@ -13,6 +15,8 @@ mongoose.connection.on("connected", () => {
 // Import the Fruit model
 const Session = require("./models/session.js");
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method")); // new
+app.use(morgan("dev")); //new
 
 // GET /build a route to the landing page 
 app.get("/", async (req, res) => {
@@ -47,6 +51,33 @@ app.post("/sessions", async (req, res) => {
     res.redirect("/sessions");
   });
 
+  app.delete("/sessions/:sessionId", async (req, res) => {
+    await Session.findByIdAndDelete(req.params.sessionId)
+    res.redirect("/sessions");
+  });
+
+// GET localhost:3000/sessions/:sessionId/edit
+app.get("/sessions/:sessionId/edit", async (req, res) => {
+    const foundSession2 = await Session.findById(req.params.sessionId);
+    res.render("sessions/edit.ejs", {
+        session: foundSession2,
+    });
+  });
+
+  app.put("/sessions/:sessionId", async (req, res) => {
+    // Handle the 'isReadyToEat' checkbox data
+    if (req.body.wasFun === "on") {
+      req.body.wasFun = true;
+    } else {
+      req.body.wasFun = false;
+    }
+    
+    // Update the session in the database
+    await Session.findByIdAndUpdate(req.params.sessionId, req.body);
+  
+    // Redirect to the session's show page to see the updates
+    res.redirect(`/sessions/${req.params.sessionId}`);
+  });
 
 app.listen(3000, () => {
   console.log("Listening on port 3000");

@@ -1,0 +1,20 @@
+<body>
+    <!-- update the header -->
+    <h1>Edit <%= session.date %></h1>
+    <form action="/sessions/<%=session._id%>?_method=PUT" method="POST">
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="editLocation" value="<%= session.location %>"/>
+
+        <label for="date">Date (MM/DD/YYYY):</label>
+        <input type="text" name="date" id="editSessionDate" value="<%= session.date %>"/>
+
+        <label for="waveHeight">Wave Height (feet):</label>
+        <input type="number" name="waveHeight" id="editWaveHeight" value="<%= session.waveHeight %>" /> 
+    
+        <label for="wasFun">Was it fun?</label>
+        <input type="checkbox" name="wasFun" id="editWasFun" <% if (session.wasFun) { %>checked<% } %>/>
+      <!-- update the button text -->
+      <button type="submit">Update Session</button>
+    </form>
+    <a href="/sessions">Back to Sessions</a>
+  </body>
