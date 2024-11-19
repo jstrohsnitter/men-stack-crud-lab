@@ -11,6 +11,8 @@ const morgan = require("morgan"); //new
 
 const app = express();
 
+const authController = require("./controllers/auth.js");
+
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.connection.on("connected", () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
@@ -18,6 +20,7 @@ mongoose.connection.on("connected", () => {
 
 // Import the Fruit model
 const Session = require("./models/session.js");
+const User = require("./models/login.js")
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method")); // new
 app.use(morgan("dev")); //new
@@ -26,6 +29,19 @@ app.use(morgan("dev")); //new
 app.get("/", async (req, res) => {
     res.render("index.ejs");
   });
+
+app.use("/auth", authController);
+
+// // GET /login
+// //app.get("/login", async (req, res) => {
+//   //res.render("login.ejs")
+// })
+
+// // POST /login
+// //app.post("/login", async (req,res) => {
+//   //await User.create(req.body)
+//   //res.redirect("/")
+// })
 
 // GET /sessions
 app.get("/sessions", async (req,res) => {
