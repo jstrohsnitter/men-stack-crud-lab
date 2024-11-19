@@ -30,8 +30,9 @@ app.get("/", async (req, res) => {
 // GET /sessions
 app.get("/sessions", async (req,res) => {
     const allSessions = await Session.find();
-    // const allSessionsSorted = await allSessions.sort((a, b) => b.date - a.date);
-    res.render("sessions/index.ejs", {sessions: allSessions})
+    const allSessionsSorted = await allSessions.sort((a, b) => new Date(b.date) - new Date(a.date)); //got help from stack overflow with this one. the Date creates a string out of a,b.date. the new turns it into an object. the date alone is a utility function, and spits out the current date and time.  with the new operator, the date turns into a constructor function, and converts the a.date and b.date strings into objects to be sorted 
+    console.log(allSessionsSorted)
+    res.render("sessions/index.ejs", {sessions: allSessionsSorted})
 })
 
 // GET /sessions/new
