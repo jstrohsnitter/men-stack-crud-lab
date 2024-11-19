@@ -8,6 +8,8 @@ const express = require("express");
 const mongoose = require("mongoose"); // require package
 const methodOverride = require("method-override"); // new
 const morgan = require("morgan"); //new
+const userSession = require('express-session');
+
 
 const app = express();
 
@@ -21,9 +23,18 @@ mongoose.connection.on("connected", () => {
 // Import the Fruit model
 const Session = require("./models/session.js");
 const User = require("./models/login.js")
+// Middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method")); // new
 app.use(morgan("dev")); //new
+// new
+app.use(
+  userSession ({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // GET /build a route to the landing page 
 app.get("/", async (req, res) => {
