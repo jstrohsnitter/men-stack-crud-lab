@@ -7,8 +7,20 @@
     <title>Where to Surf App</title>
   </head>
   <body>
-    <h1>Welcome to the Where to Surf App</h1>
+    <% if (user) { %>
+    <h1>Welcome to the Where to Surf App, <%= user.username %>!</h1>
+    <p>
+      <!-- new sign out link -->
+      <a href="/auth/sign-out">Sign out</a>
+    </p>
+      <% } else { %>
+    <h1>Welcome to the Where to Surf App, guest.</h1>
+    <p>
+      <a href="/auth/sign-up">Sign Up</a> or <a href="/auth/sign-in">Sign In</a>.
+    </p>
+    <% } %>
     <p>An app for logging your surf sessions and the conditions to determine where you want to surf next.</p>
     <a href="/sessions">Browse Sessions</a>
+    <p><a href="/vip-lounge">Get into the VIP Users Only lounge!</a></p>
   </body>
 </html>

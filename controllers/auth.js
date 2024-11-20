@@ -5,6 +5,7 @@ const router = express.Router();
 
 module.exports = router;
 
+//Sign Up
 router.get("/sign-up", (req,res) => {
     res.render("auth/sign-up.ejs");
 });
@@ -23,6 +24,7 @@ router.post("/sign-up", async (req,res) => {
     res.send(`Thanks for signing up ${user.username}`);
 })
 
+//Sign In
 router.get("/sign-in", (req,res) => {
     res.render("auth/sign-in.ejs")
 })
@@ -40,8 +42,17 @@ router.post("/sign-in", async (req, res) => {
         return res.send("Login failed. Please try again.");
     }
     req.session.user = {
-        username: userInDatabase.user,
+        username: userInDatabase.username,
         _id: userInDatabase._id,
       };
+      req.session.save(() => {
       res.redirect("/");
   });
+})
+
+  //Sign Out
+router.get("/sign-out", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/");
+      });
+    });

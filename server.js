@@ -1,6 +1,7 @@
 //add code for sorting list by date
 //log in
 //style
+//would like to add rule in so blank session can't be logged
 
 const dotenv = require("dotenv"); // require package
 dotenv.config(); // Loads the environment variables from .env file
@@ -9,6 +10,7 @@ const mongoose = require("mongoose"); // require package
 const methodOverride = require("method-override"); // new
 const morgan = require("morgan"); //new
 const userSession = require('express-session');
+const MongoStore = require("connect-mongo");
 
 
 const app = express();
@@ -33,26 +35,20 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
   })
+})
 );
 
 // GET /build a route to the landing page 
 app.get("/", async (req, res) => {
-    res.render("index.ejs");
+    res.render("index.ejs", {
+      user: req.session.user //sending a user variable to our index.ejs template
+    });
   });
 
 app.use("/auth", authController);
-
-// // GET /login
-// //app.get("/login", async (req, res) => {
-//   //res.render("login.ejs")
-// })
-
-// // POST /login
-// //app.post("/login", async (req,res) => {
-//   //await User.create(req.body)
-//   //res.redirect("/")
-// })
 
 // GET /sessions
 app.get("/sessions", async (req,res) => {
@@ -111,6 +107,27 @@ app.get("/sessions/:sessionId/edit", async (req, res) => {
     res.redirect(`/sessions/${req.params.sessionId}`);
   });
 
+  //VIP Lounge route
+  app.get("/vip-lounge", (req, res) => {
+    if (req.session.user) {
+      res.send(`Welcome to the party ${req.session.user.username}.`);
+    } else {
+      res.send("Sorry, no guests allowed.");
+    }
+  });
+
 app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
+
+//====================================TRASH PILE========================================
+// // GET /login
+// //app.get("/login", async (req, res) => {
+//   //res.render("login.ejs")
+// })
+
+// // POST /login
+// //app.post("/login", async (req,res) => {
+//   //await User.create(req.body)
+//   //res.redirect("/")
+// })
